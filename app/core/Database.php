@@ -1,10 +1,8 @@
 <?php
 
+require_once 'config/config.php'; // Đảm bảo include file config.php
+
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'database_name';
-    private $username = 'root';
-    private $password = '';
     private $conn;
 
     // Kết nối cơ sở dữ liệu
@@ -12,14 +10,14 @@ class Database {
         $this->conn = null;
 
         try {
-            $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset=utf8";
+            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ];
 
-            $this->conn = new PDO($dsn, $this->username, $this->password, $options);
+            $this->conn = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
             echo "Connection error: " . $e->getMessage();
         }
